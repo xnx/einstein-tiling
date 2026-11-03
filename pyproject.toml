@@ -1,0 +1,36 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "einstein-tiling"
+version = "0.1.0"
+description = "Generate aperiodic hat tilings as SVG images"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "BSD-3-Clause"
+license-files = ["LICENSE", "LICENSES/*"]
+authors = [{ name = "Christian Hill" }]
+keywords = ["aperiodic", "einstein", "hat", "monotile", "svg", "tiling"]
+classifiers = [
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Topic :: Scientific/Engineering :: Visualization",
+]
+dependencies = []
+
+[project.scripts]
+einstein-tiling = "einstein_tiling.cli:main"
+
+[project.urls]
+Repository = "https://github.com/xnx/einstein-tiling"
+
+[dependency-groups]
+dev = ["pytest"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/einstein_tiling"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
