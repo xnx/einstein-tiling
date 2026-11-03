@@ -69,3 +69,24 @@ def test_whole_patch_draws_every_hat():
 def test_colours_can_be_overridden():
     svg = et.tiling_svg(et.supertile("H", 2), colours={"F": "#123456"})
     assert "#123456" in svg
+
+
+def test_every_colour_can_be_set():
+    colours = {name: f"#{i:06x}" for i, name in enumerate(et.COLOURS, 1)}
+    svg = et.tiling_svg(et.supertile("H", 3), show_metatiles=True,
+                        colours=colours)
+    for value in colours.values():
+        assert value in svg
+
+
+def test_unknown_colour_name_is_rejected():
+    with pytest.raises(ValueError, match="unknown colour name h"):
+        et.tiling_svg(et.supertile("H", 1), colours={"h": "red"})
+
+
+def test_colour_values_cannot_break_the_svg():
+    from xml.dom.minidom import parseString
+    svg = et.tiling_svg(et.supertile("H", 2),
+                        colours={"H": 'red"/><script>alert(1)</script>'})
+    assert "<script>" not in svg
+    parseString(svg)

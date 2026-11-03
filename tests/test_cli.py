@@ -69,3 +69,18 @@ def test_wrong_cluster_breaks_the_rules():
     _, k, t = tiles[i]
     tiles[i] = "F", k, t           # Same hats, different boundary.
     assert et.label_violations(tiles)
+
+
+def test_colour_options(tmp_path):
+    path = tmp_path / "out.svg"
+    assert main(["tiling", "-l", "2", "--colour", "H=#123456",
+                 "--color", "reflected=navy", "-o", str(path)]) == 0
+    assert path.read_text() == et.tiling_svg(
+        et.supertile("H", 2), colours={"H": "#123456", "reflected": "navy"})
+
+
+@pytest.mark.parametrize("value", ["H", "H=", "h=red", "=red"])
+def test_bad_colour_options_exit_with_status_2(value):
+    with pytest.raises(SystemExit) as stop:
+        main(["tiling", "--colour", value])
+    assert stop.value.code == 2

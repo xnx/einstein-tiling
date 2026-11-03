@@ -1,0 +1,44 @@
+cff-version: 1.2.0
+message: >-
+  If you use this software, please cite it as below, and cite the paper it
+  implements.
+type: software
+title: einstein-tiling
+abstract: >-
+  Generate aperiodic tilings by the hat monotile as SVG images, using the
+  clusters and matching rules of Smith, Myers, Kaplan and Goodman-Strauss.
+authors:
+  - given-names: Christian
+    family-names: Hill
+license: BSD-3-Clause
+repository-code: "https://github.com/xnx/einstein-tiling"
+url: "https://pypi.org/project/einstein-tiling/"
+keywords:
+  - aperiodic tiling
+  - einstein
+  - hat
+  - monotile
+references:
+  - type: article
+    title: An aperiodic monotile
+    authors:
+      - given-names: David
+        family-names: Smith
+      - given-names: Joseph Samuel
+        family-names: Myers
+      - given-names: Craig S.
+        family-names: Kaplan
+      - given-names: Chaim
+        family-names: Goodman-Strauss
+    journal: Combinatorial Theory
+    volume: 4
+    issue: 1
+    year: 2024
+    doi: 10.5070/C64163843
+  - type: software
+    title: hatviz
+    authors:
+      - given-names: Craig S.
+        family-names: Kaplan
+    repository-code: "https://github.com/isohedral/hatviz"
+    license: BSD-3-Clause

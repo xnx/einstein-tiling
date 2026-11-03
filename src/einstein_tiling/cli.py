@@ -4,8 +4,8 @@ import argparse
 import os
 import sys
 
-from . import (__version__, clusters_svg, hat_edges, label_violations,
-               supertile, tiling_svg)
+from . import (COLOURS, __version__, clusters_svg, hat_edges,
+               label_violations, supertile, tiling_svg)
 from .hat_data import CLUSTERS
 
 
@@ -24,6 +24,17 @@ def positive(kind):
         return value
     convert.__name__ = kind.__name__
     return convert
+
+
+def colour(text):
+    """Parse NAME=COLOUR, as in H=#d0e4f5."""
+    name, _, value = text.partition("=")
+    if not value:
+        raise argparse.ArgumentTypeError("use NAME=COLOUR, as in H=#d0e4f5")
+    if name not in COLOURS:
+        raise argparse.ArgumentTypeError(
+            f"unknown name {name!r}: use {', '.join(COLOURS)}")
+    return name, value
 
 
 def write(document, path):
@@ -48,7 +59,8 @@ def run_tiling(args):
         print("error: the patch breaks the matching rules", file=sys.stderr)
         return 1
     write(tiling_svg(tiles, width=args.width, aspect=args.aspect,
-                     crop=not args.no_crop, show_metatiles=args.metatiles),
+                     crop=not args.no_crop, show_metatiles=args.metatiles,
+                     colours=dict(args.colours)),
           args.output)
     return 0
 
@@ -96,6 +108,10 @@ def build_parser():
                         help="draw the whole patch, with its ragged edge")
     tiling.add_argument("--metatiles", action="store_true",
                         help="outline each metatile")
+    tiling.add_argument("--colour", "--color", dest="colours", type=colour,
+                        action="append", default=[], metavar="NAME=COLOUR",
+                        help="set a colour, and repeat for more; NAME is "
+                             f"one of {', '.join(COLOURS)}")
     tiling.set_defaults(run=run_tiling)
 
     clusters = commands.add_parser("clusters",

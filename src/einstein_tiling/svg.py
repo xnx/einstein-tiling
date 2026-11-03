@@ -1,5 +1,6 @@
 """Draw clusters and tilings as SVG documents, returned as strings."""
 
+import html
 import math
 
 from .geometry import place, to_xy
@@ -18,10 +19,19 @@ FONT = 'font-family="serif" font-style="italic"'
 HAT_FILL = "#e8eef3"
 REFLECTED_HAT_FILL = "#8fc1e8"
 
-# Tilings.
-COLOURS = {"H": "#8fc1e8", "T": "#f2c14e", "P": "#e8eef3", "F": "#b7d99a"}
-REFLECTED_COLOUR = "#1f6fb2"
 METATILE_COLOUR = "#a3d900"
+
+# Tilings: the default colour of each part of the picture.
+COLOURS = {
+    "H": "#8fc1e8",             # Unreflected hats, by cluster.
+    "T": "#f2c14e",
+    "P": "#e8eef3",
+    "F": "#b7d99a",
+    "reflected": "#1f6fb2",     # The reflected hat in each H cluster.
+    "outline": "#222",          # The edges of the hats.
+    "metatile": METATILE_COLOUR,  # Metatile outlines, with show_metatiles.
+    "background": "white",
+}
 
 
 def _to_figure(p):
@@ -190,6 +200,17 @@ def _whole_patch(edges):
         half_height
 
 
+def _colours(overrides):
+    """Merge colour overrides into COLOURS, escaped for use in SVG."""
+    overrides = overrides or {}
+    unknown = sorted(set(overrides) - set(COLOURS))
+    if unknown:
+        raise ValueError(f"unknown colour name {', '.join(unknown)}: use "
+                         f"{', '.join(COLOURS)}")
+    return {name: html.escape(value) for name, value in
+            {**COLOURS, **overrides}.items()}
+
+
 def tiling_svg(tiles, *, width=1200, aspect=1.5, crop=True,
                show_metatiles=False, colours=None):
     """Return an SVG document showing a patch of placed metatiles.
@@ -199,9 +220,10 @@ def tiling_svg(tiles, *, width=1200, aspect=1.5, crop=True,
     ragged. That rectangle can be small at low levels. Without `crop`, the
     whole patch is drawn and `aspect` is ignored.
 
-    `colours` overrides any of the colours in COLOURS.
+    `colours` maps any of the names in COLOURS to an SVG colour, such as
+    "#d0e4f5", "navy" or "none".
     """
-    fills = {**COLOURS, **(colours or {})}
+    fills = _colours(colours)
     edges = hat_edges(tiles)
     if crop:
         cx, cy, half_width, half_height = _clear_rectangle(edges, aspect)
@@ -224,17 +246,18 @@ def tiling_svg(tiles, *, width=1200, aspect=1.5, crop=True,
 
     parts = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" '
              f'height="{height:.0f}" viewBox="0 0 {width} {height:.0f}">',
-             '<rect width="100%" height="100%" fill="white"/>']
+             f'<rect width="100%" height="100%" fill="{fills["background"]}"/>']
     for name, reflected, points in hat_polygons(tiles):
         if not off_picture(points):
-            fill = REFLECTED_COLOUR if reflected else fills[name]
+            fill = fills["reflected"] if reflected else fills[name]
             parts.append(svg_polygon(
-                points, f'fill="{fill}" stroke="#222" stroke-width="0.6"'))
+                points, f'fill="{fill}" stroke="{fills["outline"]}" '
+                        'stroke-width="0.6"'))
     if show_metatiles:
         for _, points in metatile_polygons(tiles):
             if not off_picture(points):
                 parts.append(svg_polygon(
-                    points, f'fill="none" stroke="{METATILE_COLOUR}" '
+                    points, f'fill="none" stroke="{fills["metatile"]}" '
                             'stroke-width="2.5"'))
     parts.append("</svg>")
     return "\n".join(parts) + "\n"

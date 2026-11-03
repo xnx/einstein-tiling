@@ -11,11 +11,13 @@ from importlib.metadata import version
 
 from .hat_data import CLUSTERS
 from .substitute import supertile
-from .svg import clusters_svg, hat_polygons, metatile_polygons, tiling_svg
+from .svg import (COLOURS, clusters_svg, hat_polygons, metatile_polygons,
+                  tiling_svg)
 from .validate import hat_edges, label_violations, rim
 
 __all__ = [
     "CLUSTERS",
+    "COLOURS",
     "clusters_svg",
     "hat_edges",
     "hat_polygons",
