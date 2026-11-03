@@ -54,3 +54,18 @@ def test_version(capsys):
         main(["--version"])
     assert stop.value.code == 0
     assert et.__version__ in capsys.readouterr().out
+
+def test_width_and_aspect_options(tmp_path):
+    path = tmp_path / "out.svg"
+    assert main(["tiling", "-l", "2", "--width", "800", "--aspect", "2",
+                 "-o", str(path)]) == 0
+    assert path.read_text().startswith(
+        '<svg xmlns="http://www.w3.org/2000/svg" width="800" height="400"')
+
+
+def test_wrong_cluster_breaks_the_rules():
+    tiles = et.supertile("H", 3)
+    i = next(i for i, (name, _, _) in enumerate(tiles) if name == "P")
+    _, k, t = tiles[i]
+    tiles[i] = "F", k, t           # Same hats, different boundary.
+    assert et.label_violations(tiles)
