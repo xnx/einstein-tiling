@@ -24,13 +24,24 @@ dependencies = []
 einstein-tiling = "einstein_tiling.cli:main"
 
 [project.urls]
+Documentation = "https://einstein-tiling.readthedocs.io"
 Repository = "https://github.com/xnx/einstein-tiling"
+Issues = "https://github.com/xnx/einstein-tiling/issues"
+Changelog = "https://github.com/xnx/einstein-tiling/blob/main/CHANGELOG.md"
 
 [dependency-groups]
 dev = ["pytest"]
+# Sphinx 9.2 needs Python 3.13 or later, so the documentation is built with
+# that, although the package itself supports Python 3.10.
+docs = [
+    "sphinx~=9.2; python_version >= '3.13'",
+    "furo>=2025.12.19; python_version >= '3.13'",
+]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/einstein_tiling"]
 
 [tool.pytest.ini_options]
-testpaths = ["tests"]
+# The examples in the documentation are tested too.
+testpaths = ["tests", "docs"]
+addopts = ["--doctest-glob=*.rst"]

@@ -142,10 +142,18 @@ def metatiles():
 
 
 def supertile(name, level):
-    """Return the placed metatiles of a supertile, with integer coordinates.
+    """Return the metatiles of a supertile, placed with integer coordinates.
 
-    `name` is one of "H", "T", "P" or "F", and level 0 is a single metatile.
-    Each level multiplies the number of tiles by about 6.85.
+    `name` is one of "H", "T", "P" or "F", and `level` is the number of
+    substitution steps: level 0 is a single metatile, and each level
+    multiplies the number of tiles by about 6.85.
+
+    Each placed metatile is a tuple (name, k, t): the cluster of that name in
+    CLUSTERS, rotated anticlockwise by k * 60 degrees about its origin, then
+    moved by t. A point (a, b) stands for a + b w, where w = exp(i pi / 3), in
+    units of the hat's short edge. Metatiles are never reflected.
+
+    Raises ValueError for an unknown name or a negative level.
     """
     if name not in OUTLINES:
         raise ValueError(f"unknown supertile {name!r}: use H, T, P or F")

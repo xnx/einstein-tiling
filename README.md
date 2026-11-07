@@ -4,7 +4,8 @@ Generate aperiodic tilings by the hat monotile as SVG images, using the clusters
 and matching rules of Smith, Myers, Kaplan and Goodman-Strauss,
 [An aperiodic monotile](https://arxiv.org/abs/2303.10798).
 
-It has no dependencies, and uses exact integer coordinates throughout.
+It has no dependencies, and uses exact integer coordinates throughout. The
+documentation is at https://einstein-tiling.readthedocs.io.
 
 ## Command line
 

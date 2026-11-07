@@ -150,7 +150,12 @@ def _svg_caption(cluster, offset):
 
 
 def clusters_svg(*, show_vertex_numbers=False):
-    """Return an SVG document reproducing Figure 4.1 of the paper."""
+    """Return an SVG document reproducing Figure 4.1 of the paper.
+
+    It shows the four clusters with their metatile outlines, marked points
+    and edge labels. With `show_vertex_numbers`, each hat's vertices are
+    numbered.
+    """
     offsets, width, height = _layout()
     parts = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{width:.0f}" '
              f'height="{height:.0f}" viewBox="0 0 {width:.0f} {height:.0f}">',
@@ -165,7 +170,12 @@ def clusters_svg(*, show_vertex_numbers=False):
 
 
 def hat_polygons(tiles):
-    """Yield (cluster name, reflected, [(x, y), ...]) for each hat."""
+    """Yield (name, reflected, vertices) for each hat in a patch.
+
+    `name` is the hat's cluster, `reflected` is True for the one reflected
+    hat in each H cluster, and `vertices` lists the hat's 13 corners as
+    Cartesian (x, y) pairs, anticlockwise, in units of its short edge.
+    """
     outlines = {name: list(cluster.hat_outlines())
                 for name, cluster in CLUSTERS.items()}
     for name, k, t in tiles:
@@ -175,7 +185,11 @@ def hat_polygons(tiles):
 
 
 def metatile_polygons(tiles):
-    """Yield (cluster name, [(x, y), ...]) for each metatile's outline."""
+    """Yield (name, vertices) for each metatile in a patch.
+
+    `vertices` are the marked points on the metatile's outline, including its
+    corners, as Cartesian (x, y) pairs, anticlockwise.
+    """
     for name, k, t in tiles:
         yield name, [to_xy(place(p, (k, False, t)))
                      for p, _ in CLUSTERS[name].boundary]
@@ -215,13 +229,16 @@ def tiling_svg(tiles, *, width=1200, aspect=1.5, crop=True,
                show_metatiles=False, colours=None):
     """Return an SVG document showing a patch of placed metatiles.
 
-    With `crop`, the picture is the largest centred rectangle of the given
-    aspect ratio (width / height) that has no gaps: a supertile's edge is
-    ragged. That rectangle can be small at low levels. Without `crop`, the
-    whole patch is drawn and `aspect` is ignored.
+    `tiles` is a list of placed metatiles, as from supertile(), and `width`
+    is the picture's width in pixels. With `crop`, the picture is the largest
+    centred rectangle of the given aspect ratio (width / height) that has no
+    gaps: a supertile's edge is ragged. That rectangle can be small at low
+    levels. Without `crop`, the whole patch is drawn and `aspect` is ignored.
+    With `show_metatiles`, each metatile is outlined.
 
     `colours` maps any of the names in COLOURS to an SVG colour, such as
-    "#d0e4f5", "navy" or "none".
+    "#d0e4f5", "navy" or "none". Raises ValueError for an unknown name, or
+    when no gap-free rectangle can be cropped.
     """
     fills = _colours(colours)
     edges = hat_edges(tiles)

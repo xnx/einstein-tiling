@@ -17,7 +17,18 @@ def unit_edges(start, end, unit):
 
 
 def label_violations(tiles):
-    """Return the shared unit edges that break the matching rules."""
+    """Return the places where a patch breaks the matching rules.
+
+    Each metatile's boundary is split into steps two hat short edges long.
+    Where two metatiles meet along a step, they must carry complementary
+    labels (A+ against A-, L against L, and so on) at matching positions
+    along their segments. Each violation is a tuple (p, q, label, other): the
+    step from p to q, its label, and the other metatile's (label, position,
+    length) there.
+
+    An empty list means that the patch obeys the rules. Raises ValueError if
+    two metatiles overlap along an edge.
+    """
     edges = {}
     for name, k, t in tiles:
         move = (k, False, t)
@@ -36,7 +47,12 @@ def label_violations(tiles):
 
 
 def hat_edges(tiles):
-    """Return every directed hat edge, raising if any is used twice."""
+    """Return the set of directed hat edges in a patch, as (p, q) pairs.
+
+    Every hat is traced anticlockwise, with its edge of length 2 split in
+    two, so two hats that meet share an edge in opposite directions. Raises
+    ValueError if any directed edge is used twice: two hats overlap there.
+    """
     edges = set()
     outlines = {name: [v for _, _, v in c.hat_outlines()]
                 for name, c in CLUSTERS.items()}
@@ -57,5 +73,9 @@ def hat_edges(tiles):
 
 
 def rim(edges):
-    """Return the edges with no partner: the outside of a gap-free patch."""
+    """Return the edges, from hat_edges(), that have no partner.
+
+    For a patch made by supertile(), these are its outer boundary. A gap in
+    the middle of a patch adds its outline to the rim, without any error.
+    """
     return [(p, q) for p, q in edges if (q, p) not in edges]

@@ -40,7 +40,13 @@ BOUNDARY = {
 
 
 class Cluster:
-    """A cluster of hats and the labelled boundary of its metatile."""
+    """A cluster of hats and the labelled boundary of its metatile.
+
+    `name` is "H", "T", "P" or "F". `hats` lists each hat's placement
+    (k, reflected, t), in the order of the paper's labels (H1, H2, ...).
+    `boundary` lists the metatile's marked points anticlockwise, each with
+    the label of the edge segment that leaves it.
+    """
 
     def __init__(self, name):
         self.name = name
