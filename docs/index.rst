@@ -2,10 +2,10 @@
 einstein-tiling
 ***************
 
-einstein-tiling draws aperiodic tilings by the *hat*, the "einstein" found by
-David Smith, Joseph Samuel Myers, Craig S. Kaplan and Chaim Goodman-Strauss:
-a single shape that covers the plane with no gaps or overlaps, but never in a
-repeating pattern.
+The einstein-tiling package draws aperiodic tilings by the *hat*, the
+"einstein" found by David Smith, Joseph Samuel Myers, Craig S. Kaplan and
+Chaim Goodman-Strauss: a single shape that covers the plane with no gaps or
+overlaps, but never in a repeating pattern.
 
 .. image:: _generated/tiling.svg
    :alt: A patch of the hat tiling. Each hat is coloured by the kind of
@@ -29,8 +29,8 @@ or from Python:
 []
 >>> svg = et.tiling_svg(tiles, width=800)
 
-einstein-tiling is pure Python, with no dependencies, and needs Python 3.10 or
-later:
+The einstein-tiling package is pure Python, with no dependencies, and needs
+Python 3.10 or later:
 
 .. code-block:: console
 

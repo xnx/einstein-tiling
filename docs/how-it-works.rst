@@ -1,12 +1,12 @@
-************
-How it works
-************
+**************
+Implementation
+**************
 
-einstein-tiling follows Smith, Myers, Kaplan and Goodman-Strauss,
+The einstein-tiling package follows Smith, Myers, Kaplan and Goodman-Strauss,
 `An aperiodic monotile <https://doi.org/10.5070/C64163843>`_, *Combinatorial
 Theory* 4(1) (2024), © the authors, released under the
-`CC BY 4.0 <https://creativecommons.org/licenses/by/4.0/>`_ licence. The figure
-numbers here are those of that paper. The picture of the four clusters below
+`CC BY 4.0 <https://creativecommons.org/licenses/by/4.0/>`_ licence. The
+figure numbers here are those of that paper. The picture of the four clusters below
 is redrawn from its Figure 4.1.
 
 The hat
@@ -41,15 +41,15 @@ only ever rotated, never reflected.
 Following the rules, the hats of neighbouring clusters fit together exactly,
 so any tiling by the metatiles gives a tiling by hats.
 
-Why substitution
-================
+Substitution method
+===================
 
 The matching rules are local, but they are not enough to build a tiling one
 tile at a time: a patch can obey every rule and still be impossible to
 extend, so a tile placed early can turn out to be wrong much later.
 
-So einstein-tiling builds tilings by *substitution* (Figure 2.6), and uses the
-matching rules to check the result. At each level:
+The einstein-tiling package builds tilings by *substitution* (Figure 2.6), and
+uses the matching rules only to check the result. At each level:
 
 1. 29 copies of the four tiles are fitted together edge to edge, using the
    table of placements in `hatviz <https://github.com/isohedral/hatviz>`_.
@@ -80,10 +80,10 @@ The numbers of hats in the H supertile, 4, 25, 169, 1,156, 7,921, ..., are the
 squares of every other Fibonacci number, and the area of the tiles grows by
 the factor φ⁴ ≈ 6.854 at each level, where φ is the golden ratio.
 
-.. _exact-coordinates:
+.. _coordinates:
 
-Exact coordinates
-=================
+Coordinates
+===========
 
 Every corner of every hat lies on a triangular lattice, so einstein-tiling
 stores a point as two integers ``(a, b)``, standing for a + b ω, where
@@ -92,13 +92,13 @@ stores a point as two integers ``(a, b)``, standing for a + b ω, where
 fractions, so they are kept as exact :class:`fractions.Fraction` values, but
 the metatiles' placements always come out as integers.
 
-So floating-point numbers appear only when drawing, and in
+Floating-point numbers therefore appear only when drawing, and in
 :func:`~einstein_tiling.hat_polygons` and
 :func:`~einstein_tiling.metatile_polygons`, and the checks compare coordinates
 exactly.
 
-How patches are checked
-=======================
+Checking patches
+================
 
 :func:`~einstein_tiling.label_violations` splits every metatile's boundary into
 steps, and checks that wherever two metatiles share a step, their labels are

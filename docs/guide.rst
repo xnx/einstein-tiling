@@ -5,7 +5,7 @@ User guide
 Installing
 ==========
 
-einstein-tiling is on PyPI, and has no dependencies:
+The einstein-tiling package is on PyPI, and has no dependencies:
 
 .. code-block:: console
 
@@ -128,7 +128,7 @@ metatiles:
 
 Each is a tuple ``(name, k, t)``: the cluster of that name, turned
 anticlockwise by ``k`` × 60° and then moved by ``t``. The coordinates are exact
-integers (see :ref:`exact-coordinates`). The clusters themselves are in
+integers (see :ref:`coordinates`). The clusters themselves are in
 :data:`~einstein_tiling.CLUSTERS`.
 
 :func:`~einstein_tiling.label_violations` checks a patch against the matching
