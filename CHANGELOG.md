@@ -1,12 +1,15 @@
 # Changelog
 
-## Unreleased
+## 0.3.0 (8 November 2026)
 
 ### Added
 
 - Documentation at https://einstein-tiling.readthedocs.io: a user guide, an
   explanation of how the tilings are made, and an API reference. Its examples
   are tested with the rest of the code.
+- Links to the documentation and this changelog on the PyPI page.
+
+The code is unchanged, apart from fuller docstrings.
 
 ## 0.2.0 (3 November 2026)
 
