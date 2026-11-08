@@ -49,6 +49,7 @@ for _level in range(3):
     _write(f"level{_level}.svg",
            et.tiling_svg(et.supertile("H", _level), width=400, crop=False,
                          show_metatiles=True))
+# The guide gives the command that draws this picture: keep the two the same.
 _write("colours.svg",
        et.tiling_svg(et.supertile("H", 3), width=900, colours={
            "H": "#f4d8cd", "T": "#ffffff", "P": "#ede4d3", "F": "#d9c6b0",

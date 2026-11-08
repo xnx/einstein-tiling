@@ -4,7 +4,10 @@ How it works
 
 einstein-tiling follows Smith, Myers, Kaplan and Goodman-Strauss,
 `An aperiodic monotile <https://doi.org/10.5070/C64163843>`_, *Combinatorial
-Theory* 4(1) (2024). The figure numbers here are those of that paper.
+Theory* 4(1) (2024), © the authors, released under the
+`CC BY 4.0 <https://creativecommons.org/licenses/by/4.0/>`_ licence. The figure
+numbers here are those of that paper. The picture of the four clusters below
+is redrawn from its Figure 4.1.
 
 The hat
 =======
@@ -43,9 +46,7 @@ Why substitution
 
 The matching rules are local, but they are not enough to build a tiling one
 tile at a time: a patch can obey every rule and still be impossible to
-extend, so a tile placed early can turn out to be wrong much later. In tests,
-a simple search that placed metatiles one at a time and backtracked when it
-got stuck stalled after a few hundred metatiles.
+extend, so a tile placed early can turn out to be wrong much later.
 
 So einstein-tiling builds tilings by *substitution* (Figure 2.6), and uses the
 matching rules to check the result. At each level:

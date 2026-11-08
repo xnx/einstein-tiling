@@ -51,13 +51,13 @@ before:
 
 These are the numbers in the H supertile, the default; ``--supertile`` (or
 ``-s``) chooses T, P or F instead. Levels 4 and 5 make the most useful
-pictures: a level 6 picture is around 30 MB, and slow to open.
+pictures: a level 6 picture is around 30 MB, which makes it slow to open.
 
 A supertile has a ragged edge, so the picture is cropped to the largest
-rectangle, centred on the patch, that has no gaps. ``--aspect`` sets its shape
-(width / height, 1.5 by default), and ``--width`` its width in pixels. At low
-levels, that rectangle holds only a few hats: ``--no-crop`` draws the whole
-patch instead. ``--metatiles`` outlines each cluster's *metatile*, as in
+rectangle, centred on the patch, that has no gaps around its edges.
+``--aspect`` sets its shape (width / height, 1.5 by default), and ``--width``
+its width in pixels. At low levels, that rectangle holds only a few hats:
+``--no-crop`` draws the whole patch instead. ``--metatiles`` outlines each cluster's *metatile*, as in
 Figure 4.1 of the paper:
 
 .. code-block:: console
@@ -75,8 +75,9 @@ too). Any SVG colour will do, including ``none``. Put a colour such as
 
 .. code-block:: console
 
-   $ einstein-tiling tiling --colour 'H=#f4d8cd' --colour reflected=navy \
-       --colour outline=none -o tiling.svg
+   $ einstein-tiling tiling --level 3 --width 900 --colour 'H=#f4d8cd' \
+       --colour 'T=#ffffff' --colour 'P=#ede4d3' --colour 'F=#d9c6b0' \
+       --colour 'reflected=#8c2f39' --colour 'outline=#3b2f2f' -o tiling.svg
 
 .. image:: _generated/colours.svg
    :alt: The tiling in shades of brown and cream, with the reflected hats in
